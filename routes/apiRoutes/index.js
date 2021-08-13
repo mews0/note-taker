@@ -1,6 +1,6 @@
 const router = require(`express`).Router();
 const { notes } = require(`../../db/db`); // import JSON file that contains database
-const { createNewNote, validateNote } = require(`../../lib/notes`);
+const { findById, createNewNote, validateNote, deleteNote } = require(`../../lib/notes`);
 
 router.get(`/notes`, (req, res) => {
   res.json(notes); // read the db.json file and return all saved notes as JSON
@@ -15,6 +15,12 @@ router.post(`/notes`, (req, res) => {
     const note = createNewNote(req.body, notes);
     res.json(note);
   }
+});
+
+router.delete(`/notes/:id`, (req, res) => {
+  const result = findById(req.params.id, notes);
+  const note = deleteNote(result, notes);
+  res.json(note);
 });
 
 module.exports = router;
