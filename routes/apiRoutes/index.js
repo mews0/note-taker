@@ -1,18 +1,22 @@
 const router = require(`express`).Router();
-const { notes } = require(`../../db/db`);
+const { notes } = require(`../../db/db`); // import JSON file that contains database
 
-router.get(`/api/notes`, (req, res) => {
-  // Read the db.json file and return all saved notes as JSON
+router.get(`/notes`, (req, res) => {
+  res.json(notes); // read the db.json file and return all saved notes as JSON
 });
 
-router.post(`/api/notes`, (req, res) => {
-  // Receive new note to save on the request body
-  // Add new note to the db.json file
-  // Return new note to the client
-  // Give each note a unique id when it's saved
+router.post(`/notes`, (req, res) => {
+  req.body.id = notes.length.toString(); // set id based on what the next index of the array will be
+  
+  // validate data
+     // if invalid, send 400 error back
+     // else write notes data to JSON
+
+  console.log(req.body);
+  res.json(req.body); // req.body is where incoming content will be
 });
 
-router.delete(`/api/notes/:id`, (req, res) => {
+router.delete(`/notes/:id`, (req, res) => {
   // Receive a query parameter containing the id of a note to delete
   // Read all notes from the db.json file
   // Remove the note with the given id property
