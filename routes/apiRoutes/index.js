@@ -1,5 +1,6 @@
 const router = require(`express`).Router();
 const { notes } = require(`../../db/db`); // import JSON file that contains database
+const { nanoid } = require(`nanoid`); // import Node.js package Nano ID for generating unique string IDs
 const { findById, createNewNote, validateNote, deleteNote } = require(`../../lib/notes`);
 
 router.get(`/notes`, (req, res) => {
@@ -7,7 +8,7 @@ router.get(`/notes`, (req, res) => {
 });
 
 router.post(`/notes`, (req, res) => {
-  req.body.id = notes.length.toString(); // set id based on what the next index of the array will be
+  req.body.id = nanoid(); // set unique string id
   
   if (!validateNote(req.body)) { // if invalid, send 400 error back
     res.status(400).send(`The note is not properly formatted.`);
